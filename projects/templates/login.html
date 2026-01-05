@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Login - CSIR-4PI{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow">
+            <div class="card-body p-5">
+                <div class="text-center mb-4">
+                    <i class="fas fa-sign-in-alt fa-3x text-primary mb-3"></i>
+                    <h2 class="fw-bold">Login</h2>
+                </div>
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+                    <div class="mb-3">
+                        {{ form.username.label(class="form-label") }}
+                        {{ form.username(class="form-control form-control-lg", placeholder="Enter username") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.password.label(class="form-label") }}
+                        {{ form.password(class="form-control form-control-lg", placeholder="Enter password") }}
+                    </div>
+                    <div class="d-grid">
+                        {{ form.submit(class="btn btn-primary btn-lg") }}
+                    </div>
+                </form>
+                <div class="text-center mt-4">
+                    <p>Don't have an account? <a href="{{ url_for('signup') }}">Sign Up</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
