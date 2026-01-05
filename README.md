@@ -1,16 +1,2 @@
 # PROJECT 
-CSIR-4PI Room Booking System
--> Features
-   *Email OTP signup/login
-   *3 Rooms × 8 daily slots (7AM-5PM)
-   *Book/Cancel own bookings only
-   *Real-time calendar with merged cells
-   *Mobile responsive design
-
--> QUICK START
-pip install flask flask-sqlalchemy flask-login flask-wtf wtforms
-python app.py
-
-Access
-http://127.0.0.1:5000
-By Hariharabalan M, NAL CSIR-4PI Intern
+CSIR-4PI Room Booking System is a professional Flask web app for NAL CSIR-4PI featuring secure email OTP signup/login, real-time interactive calendar for 3 rooms × 8 daily slots (7AM-5PM), book/cancel own bookings only with Excel-style merged cells (orange=YOURS, red=others), fully mobile responsive design with smooth animations. Quick setup: pip install flask flask-sqlalchemy flask-login flask-wtf wtforms, update Gmail credentials in app.py, run `python app.py`, access http://127.0.0.1:5000. Developed by Hariharabalan M, NAL CSIR-4PI Intern. 🚀
