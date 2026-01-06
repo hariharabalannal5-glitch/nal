@@ -19,9 +19,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///csir4pi.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
-# ✅ GMAIL SMTP CONFIG - UPDATE THESE 2 LINES
-GMAIL_USER = 'hariharabalanm.ug22.cs@francisxavier.ac.in'  # ← YOUR GMAIL
-GMAIL_PASSWORD = 'ram_sita03=04'  # ← GMAIL APP PASSWORD
+# ✅ GMAIL SMTP CONFIG - UPDATE TH,ESE 2 LINES
+GMAIL_USER = 'hariharabalan787@gmail.com'  # ← YOUR GMAIL
+GMAIL_PASSWORD = 'ccft pfqt itmq wref'  # ← GMAIL APP PASSWORD
 
 
 db = SQLAlchemy(app)
