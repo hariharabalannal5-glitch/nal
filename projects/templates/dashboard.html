@@ -1,54 +1,76 @@
 {% extends "base.html" %}
 {% block title %}Dashboard - CSIR-4PI{% endblock %}
+
 {% block content %}
 <div class="row">
     <div class="col-12">
+
+        <!-- HEADER -->
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1 class="h3 fw-bold">
-                <i class="fas fa-calendar-alt me-2 text-primary"></i>Room Booking
+                <i class="fas fa-calendar-alt me-2 text-primary"></i>
+                Room Booking Dashboard
             </h1>
-            <div class="user-info">
+
+            <div class="d-flex align-items-center gap-2">
                 <span class="badge bg-primary fs-6">
-                    Room Booking for {{ user.name }}
+                    {{ user.name }}
                 </span>
+
+                {% if user.username == 'admin' %}
+                <a href="{{ url_for('admin_users') }}"
+                   class="btn btn-warning btn-sm">
+                    <i class="fas fa-users-cog"></i> Admin Panel
+                </a>
+                {% endif %}
+
+                <a href="{{ url_for('logout') }}"
+                   class="btn btn-danger btn-sm">
+                    Logout
+                </a>
             </div>
         </div>
 
-        <!-- Room Selection -->
+        <!-- ROOM SELECTION -->
         <div class="card shadow mb-4">
             <div class="card-header bg-primary text-white">
                 <h5 class="mb-0">
-                    <i class="fas fa-building me-2"></i>Select Room
+                    <i class="fas fa-building me-2"></i>
+                    Select Room
                 </h5>
             </div>
+
             <div class="card-body">
                 <div class="rooms" id="rooms">
                     <button class="room-btn" data-room="1">
-                        <i class="fas fa-users me-2"></i>Auditorium
+                        <i class="fas fa-users me-2"></i> Auditorium
                     </button>
                     <button class="room-btn" data-room="2">
-                        <i class="fas fa-table me-2"></i>Committee Room
+                        <i class="fas fa-table me-2"></i> Committee Room
                     </button>
                     <button class="room-btn" data-room="3">
-                        <i class="fas fa-video me-2"></i>Conference Room
+                        <i class="fas fa-video me-2"></i> Conference Room
                     </button>
                 </div>
-                <div id="selected-room" class="selected-room mt-3"></div>
+
+                <div id="selected-room"
+                     class="selected-room mt-3 fw-bold text-primary">
+                </div>
             </div>
         </div>
 
-        <!-- Calendar Section -->
-        <div id="calendar-section" style="display: none;">
+        <!-- CALENDAR SECTION -->
+        <div id="calendar-section" style="display:none;">
+
+            <!-- MONTH / YEAR CONTROLS -->
             <div class="row mb-4">
                 <div class="col-md-6">
                     <div class="card shadow-sm">
-                        <div class="card-body">
+                        <div class="card-body text-center">
+                            <div class="d-flex justify-content-center gap-3">
 
-                            <!-- ✅ UPDATED: MONTH & YEAR DROPDOWNS -->
-                            <div class="d-flex justify-content-center align-items-center gap-3">
-
-                                <!-- Month Dropdown -->
-                                <select id="month-select" class="form-select w-auto">
+                                <select id="month-select"
+                                        class="form-select w-auto">
                                     <option value="0">January</option>
                                     <option value="1">February</option>
                                     <option value="2">March</option>
@@ -63,28 +85,36 @@
                                     <option value="11">December</option>
                                 </select>
 
-                                <!-- Year Dropdown -->
-                                <select id="year-select" class="form-select w-auto">
+                                <select id="year-select"
+                                        class="form-select w-auto">
                                     {% for year in range(2024, 2035) %}
-                                        <option value="{{ year }}">{{ year }}</option>
+                                    <option value="{{ year }}">
+                                        {{ year }}
+                                    </option>
                                     {% endfor %}
                                 </select>
 
                             </div>
-
                         </div>
                     </div>
                 </div>
 
+                <!-- DAY NAVIGATION -->
                 <div class="col-md-6">
                     <div class="card shadow-sm">
                         <div class="card-body text-center">
                             <div class="d-flex justify-content-between align-items-center">
-                                <button id="prev-days" class="btn btn-sm btn-outline-secondary">
+                                <button id="prev-days"
+                                        class="btn btn-outline-secondary btn-sm">
                                     <i class="fas fa-chevron-left"></i> Prev
                                 </button>
-                                <span id="day-range" class="fw-bold fs-5"></span>
-                                <button id="next-days" class="btn btn-sm btn-outline-secondary">
+
+                                <span id="day-range"
+                                      class="fw-bold fs-5">
+                                </span>
+
+                                <button id="next-days"
+                                        class="btn btn-outline-secondary btn-sm">
                                     Next <i class="fas fa-chevron-right"></i>
                                 </button>
                             </div>
@@ -93,20 +123,30 @@
                 </div>
             </div>
 
-            <!-- Calendar Grid -->
+            <!-- CALENDAR GRID -->
             <div class="calendar-grid-container">
-                <div class="calendar-grid" id="calendar-grid"></div>
+                <div class="calendar-grid"
+                     id="calendar-grid">
+                </div>
             </div>
 
-            <!-- Confirm Section -->
-            <div class="card shadow mt-4" id="confirm-section" style="display: none;">
+            <!-- CONFIRM BOOKING -->
+            <div class="card shadow mt-4"
+                 id="confirm-section"
+                 style="display:none;">
                 <div class="card-body text-center">
+
                     <button id="confirm-booking"
                             class="btn btn-success btn-lg px-5"
                             disabled>
+                        <i class="fas fa-check-circle me-2"></i>
                         Confirm Booking
                     </button>
-                    <div id="booking-status" class="mt-3"></div>
+
+                    <div id="booking-status"
+                         class="mt-3 fw-bold">
+                    </div>
+
                 </div>
             </div>
 

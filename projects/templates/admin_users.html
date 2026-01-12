@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block title %}Admin - Users{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="h3 fw-bold">
+                <i class="fas fa-users-cog me-2 text-danger"></i>Manage Users
+            </h1>
+            <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+            </a>
+        </div>
+
+        <div class="card shadow">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0"><i class="fas fa-user-slash me-2"></i>Delete Users</h5>
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Verified</th>
+                                <th>Bookings</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                        {% for user in users %}
+                            <tr class="{% if user.username == 'admin' %}table-danger{% endif %}">
+                                <td>{{ user.id }}</td>
+
+                                <td>
+                                    <strong>{{ user.username }}</strong>
+                                    {% if user.username == 'admin' %}
+                                        <span class="badge bg-danger ms-2">ADMIN</span>
+                                    {% endif %}
+                                </td>
+
+                                <td>{{ user.name }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.phone }}</td>
+
+                                <td>
+                                    <span class="badge {{ 'bg-success' if user.email_verified else 'bg-warning' }}">
+                                        {{ 'Yes' if user.email_verified else 'No' }}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    {{ user.booking_count }}
+                                </td>
+
+                                <td>
+                                    {% if user.username != 'admin' %}
+                                    <button class="btn btn-danger btn-sm delete-user-btn"
+                                            data-user-id="{{ user.id }}"
+                                            data-user-name="{{ user.name }}">
+                                        <i class="fas fa-trash me-1"></i>Delete
+                                    </button>
+                                    {% else %}
+                                    <span class="text-muted">Protected</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Confirm Delete</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete
+                <strong id="deleteUserName"></strong>?
+                <br>
+                <small class="text-muted">This will also delete all their bookings.</small>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteForm" method="POST">
+                    <button type="submit" class="btn btn-danger">Delete User</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.delete-user-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.getElementById('deleteUserName').textContent = btn.dataset.userName;
+            document.getElementById('deleteForm').action =
+                `/admin/delete_user/${btn.dataset.userId}`;
+            new bootstrap.Modal(document.getElementById('deleteModal')).show();
+        });
+    });
+});
+</script>
+{% endblock %}

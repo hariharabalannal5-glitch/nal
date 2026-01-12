@@ -8,31 +8,27 @@ const ROOM_NAMES = {
 
 let selectedRoom = null;
 let currentDate = new Date();
-let currentDayStart = 1;
+let currentDayStart = new Date().getDate();  // ⭐ CHANGED: Start from today
 let bookings = {};
 let pendingBookings = new Set();
 let userName = '';
 
 document.addEventListener('DOMContentLoaded', function () {
-
     userName = document.querySelector('.user-info .badge')
         ?.textContent.replace('Room Booking for ', '') || '';
 
     // ✅ Initialize dropdowns to current date
     setDropdownToToday();
-
     loadBookings();
 
     document.querySelectorAll('.room-btn').forEach(btn => {
         btn.addEventListener('click', function (e) {
-
-            // ------------------------------
-            // ⭐ FIX: RESET TO PRESENT MONTH
-            // ------------------------------
-            currentDate = new Date();          // reset date
-            currentDayStart = 1;               // reset pagination
+            // ⭐ UPDATED: Reset to today instead of day 1
+            currentDate = new Date();          // reset date to today
+            const today = new Date();
+            currentDayStart = today.getDate(); // ⭐ start from today's day
             pendingBookings.clear();           // clear selections
-            setDropdownToToday();               // reset dropdowns
+            setDropdownToToday();              // reset dropdowns
 
             document.querySelectorAll('.room-btn')
                 .forEach(b => b.classList.remove('selected'));
@@ -69,7 +65,17 @@ function updateFromDropdown() {
     const year = parseInt(document.getElementById('year-select').value);
 
     currentDate = new Date(year, month, 1);
-    currentDayStart = 1;
+
+    // ⭐ NEW: Logic for current month vs other months
+    const today = new Date();
+    if (year === today.getFullYear() && month === today.getMonth()) {
+        // Current month => start from today
+        currentDayStart = today.getDate();
+    } else {
+        // Other month => start from day 1
+        currentDayStart = 1;
+    }
+
     generateCalendar();
 }
 
