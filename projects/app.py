@@ -7,19 +7,21 @@ from wtforms.validators import DataRequired, Email, Length, EqualTo
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta
 import secrets
+import os
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from dotenv import load_dotenv
 
 # ===================== APP CONFIG =====================
+load_dotenv() 
+
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'csir-4pi-super-secret-key-2025'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'csir-4pi-super-secret-key-2025')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///csir4pi.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # ===================== EMAIL CONFIG =====================
-load_dotenv() 
 GMAIL_USER = os.environ.get('GMAIL_USER')
 GMAIL_PASSWORD = os.environ.get('GMAIL_PASSWORD')
 
