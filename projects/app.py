@@ -10,6 +10,7 @@ import secrets
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from dotenv import load_dotenv
 
 # ===================== APP CONFIG =====================
 app = Flask(__name__)
@@ -18,8 +19,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///csir4pi.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # ===================== EMAIL CONFIG =====================
-GMAIL_USER = 'hariharabalan787@gmail.com'
-GMAIL_PASSWORD = 'ccft pfqt itmq wref'
+load_dotenv() 
+GMAIL_USER = os.environ.get('GMAIL_USER')
+GMAIL_PASSWORD = os.environ.get('GMAIL_PASSWORD')
 
 # ===================== EXTENSIONS =====================
 db = SQLAlchemy(app)
